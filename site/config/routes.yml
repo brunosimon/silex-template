@@ -1,0 +1,53 @@
+# example:
+#     path: '/example/{example_slug}'
+#     method: 'match'
+#     class: 'Site\Controllers\Example'
+#     method: 'example'
+#     middlewares:
+#         before:
+#             class: 'Site\Middlewares\Customs'
+#             method: 'exampleExampleBefore'
+#         after:
+#             class: 'Site\Middlewares\Customs'
+#             method: 'exampleExampleAfter'
+#         finish:
+#             class: 'Site\Middlewares\Customs'
+#             method: 'exampleExampleFinish'
+#     values:
+#         example_slug: 'example-value'
+#     asserts:
+#         example_slug: '[a-z_-]+'
+
+index_index:
+    path: '/'
+    protocol: 'get'
+    class: 'Site\Controllers\Index'
+    method: 'index'
+    middlewares:
+        before:
+            class: 'Site\Middlewares\Customs'
+            method: 'indexIndexBefore'
+index_about:
+    path: '/[routes.about]'
+    protocol: 'get'
+    class: 'Site\Controllers\Index'
+    method: 'about'
+news_index:
+    path: '/[routes.news]'
+    protocol: 'get'
+    class: 'Site\Controllers\News'
+    method: 'index'
+news_single:
+    path: '/[routes.news]/hey/{news_slug}'
+    protocol: 'get'
+    class: 'Site\Controllers\News'
+    method: 'single'
+    values:
+        news_slug: 'pwet'
+    asserts:
+        news_slug: '[a-z_-]+'
+error_index:
+    path: '/[routes.error]'
+    protocol: 'get'
+    class: 'Site\Controllers\Error'
+    method: 'index'

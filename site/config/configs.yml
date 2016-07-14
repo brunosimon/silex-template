@@ -1,0 +1,37 @@
+dev:
+    # langs: false
+    langs:
+        all: [fr,en]
+        default: fr
+        redirect: index_index
+    debug: true
+    http_cache:
+        active: false
+        life_time: 86400
+    minify:
+        stylesheet: false
+        javascript: false
+preprod:
+    langs:
+        all: [fr,en]
+        default: fr
+        redirect: index_index
+    debug: true
+    http_cache:
+        active: true
+        life_time: 86400
+    minify:
+        stylesheet: true
+        javascript: true
+prod:
+    langs:
+        all: [fr,en]
+        default: fr
+        redirect: index_index
+    debug: true
+    http_cache:
+        active: true
+        life_time: 86400
+    minify:
+        stylesheet: true
+        javascript: true

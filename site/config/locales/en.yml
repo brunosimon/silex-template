@@ -1,0 +1,9 @@
+routes:
+    about: 'about'
+    news: 'news'
+    error: 'error'
+hello: 'Hi'
+home: Home
+about: About
+news: News
+news_single: Single news

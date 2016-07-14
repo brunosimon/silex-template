@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="{{ locale is defined ? locale : 'en' }}">
+<head>
+
+    <!-- METAS -->
+    <meta charset="UTF-8">
+
+    <!-- TITLE -->
+    <title>{{ title is defined ? title : '' }}</title>
+
+    <!-- CSS -->
+    {% if config.minify.stylesheet %}
+        <link rel="stylesheet" href="{{ path('sources/stylesheet/main.min.css') }}">
+    {% else %}
+        <link rel="stylesheet" href="{{ path('sources/stylesheet/main.css') }}">
+    {% endif %}
+
+</head>
+<body class="{{ route_name }}" data-route-name="{{ route_name }}">
+
+    <div class="wrapper">
+
+        {% include 'partials/header.twig' %}
+
+        <div class="ajax-container">
+
+            <div class="page-container">
+                {% block content %}
+                {% endblock %}
+            </div>
+
+        </div>
+
+        {% include 'partials/footer.twig' %}
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    {% if config.minify.javascript %}
+        <script src="{{ path('/sources/javascript/script.min.js') }}"></script>
+    {% else %}
+        <script src="{{ path('/sources/javascript/script.js') }}"></script>
+    {% endif %}
+
+</body>
+</html>

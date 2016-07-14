@@ -1,0 +1,9 @@
+routes:
+    about: 'a-propos'
+    news: 'actualite'
+    error: 'erreur'
+hello: 'Bonjour'
+home: Accueil
+about: À propos
+news: Actualité
+news_single: Une actualité

@@ -1,0 +1,10 @@
+<header>
+    <a class="ajax" href="{{ route('index_index') }}">{{ 'home'|trans }}</a>
+    <a class="ajax" href="{{ route('index_about') }}">{{ 'about'|trans }}</a>
+    <a class="ajax" href="{{ route('news_index') }}">{{ 'news'|trans }}</a>
+    <a class="ajax" href="{{ route('news_single') }}">{{ 'news_single'|trans }}</a>
+    <br>
+    {% for _lang in app.config.langs.all %}
+        <a href="{{ route(route_name,_lang) }}">{{ _lang }}</a>
+    {% endfor %}
+</header>
