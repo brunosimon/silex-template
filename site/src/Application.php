@@ -67,6 +67,12 @@ class Application extends \Silex\Application {
 
         $this['config'] = $config;
         $this['debug'] = $this['config']['debug'];
+
+        // Set timezone
+        if(!empty($this['config']['timezone']))
+            date_default_timezone_set($this['config']['timezone']);
+        else if(!date_default_timezone_get())
+            date_default_timezone_set('Europe/Paris');
     }
 
     private function _initAjax()

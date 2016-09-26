@@ -4,6 +4,7 @@ dev:
         all: [fr,en]
         default: fr
         redirect: index_index
+    timezone: 'Europe/Paris'
     debug: true
     http_cache:
         active: false
@@ -16,6 +17,7 @@ preprod:
         all: [fr,en]
         default: fr
         redirect: index_index
+    timezone: 'Europe/Paris'
     debug: true
     http_cache:
         active: true
@@ -28,6 +30,7 @@ prod:
         all: [fr,en]
         default: fr
         redirect: index_index
+    timezone: 'Europe/Paris'
     debug: true
     http_cache:
         active: true
