@@ -89,33 +89,7 @@ class Application extends \Silex\Application {
             new \Twig_Function_Function(
                 function() use ($app)
                 {
-                    // Get arguments
-                    $arguments = func_get_args();
-
-                    // Full argument
-                    $full = false;
-                    if(count($arguments))
-                        if(is_bool($arguments[count($arguments) - 1]))
-                            $full = array_pop($arguments);
-
-                    // Path
-                    $path = '';
-                    if(count($arguments))
-                        if(is_string($arguments[count($arguments) - 1]))
-                            $path = trim(array_pop($arguments),'/');
-
-                    // Build path
-                    $base_path = trim($app['request_stack']->getCurrentRequest()->getBasePath(),'/');
-                    $return = $base_path . '/' . $path;
-
-                    // Full
-                    if($full)
-                    {
-                        $domain = 'http' . (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . ($_SERVER['SERVER_PORT'] != '80' ? ':' . $_SERVER['SERVER_PORT'] : '');
-                        $return = $domain . $return;
-                    }
-
-                    return $return;
+                    return call_user_func_array(array($this,'path'),func_get_args());
                 }
             )
         );
@@ -127,68 +101,7 @@ class Application extends \Silex\Application {
             new \Twig_Function_Function(
                 function() use ($app)
                 {
-                    // Get arguments
-                    $arguments = func_get_args();
-
-                    // Langs
-                    $has_lang = $app['config']['langs'];
-
-                    // Full argument
-                    $full = false;
-                    if(count($arguments))
-                        if(is_bool($arguments[count($arguments) - 1]))
-                            $full = array_pop($arguments);
-
-                    // Lang argument
-                    $lang = null;
-                    if($has_lang)
-                    {
-                        $all_langs = $app['config']['langs']['all'];
-
-                        if(count($arguments) > 1)
-                        {
-                            if(is_string($arguments[count($arguments) - 1]))
-                            {
-                                if(in_array($arguments[count($arguments) - 1], $all_langs))
-                                    $lang = trim(array_pop($arguments));
-                                else
-                                    array_pop($arguments);
-                            }
-                        }
-
-                        if(!$lang)
-                            $lang = $app['translator']->getLocale();
-                    }
-
-                    // Params
-                    $params = array();
-                    if(count($arguments))
-                        if(is_array($arguments[count($arguments) - 1]))
-                            $params = array_pop($arguments);
-
-                    if($lang)
-                        $params['_locale'] = $lang;
-
-                    // Path
-                    $route = '';
-                    if(count($arguments))
-                        if(is_string($arguments[count($arguments) - 1]))
-                            $route = trim(array_pop($arguments),'/');
-
-                    if($lang)
-                        $route .= '_' . $lang;
-
-                    // Build URL
-                    $url = $app['url_generator']->generate($route,$params);
-
-                    // Full
-                    if($full)
-                    {
-                        $domain = 'http' . (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . ($_SERVER['SERVER_PORT'] != '80' ? ':' . $_SERVER['SERVER_PORT'] : '');
-                        $url = $domain . $url;
-                    }
-
-                    return $url;
+                    return call_user_func_array(array($this,'route'),func_get_args());
                 }
             )
         );
@@ -196,6 +109,106 @@ class Application extends \Silex\Application {
         // Data
         $this->data      = array();
         $this->ajax_data = array();
+    }
+
+    public function path()
+    {
+        // Get arguments
+        $arguments = func_get_args();
+
+        // Full argument
+        $full = false;
+        if(count($arguments))
+            if(is_bool($arguments[count($arguments) - 1]))
+                $full = array_pop($arguments);
+
+        // Path
+        $path = '';
+        if(count($arguments))
+            if(is_string($arguments[count($arguments) - 1]))
+                $path = trim(array_pop($arguments),'/');
+
+        // Build path
+        $base_path = trim($this['request_stack']->getCurrentRequest()->getBasePath(),'/');
+        if(!empty($base_path))
+            $return = '/'.$base_path . '/' . $path;
+        else
+            $return = '/' . $path;
+
+        // Full
+        if($full)
+        {
+            $domain = 'http' . (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . ($_SERVER['SERVER_PORT'] != '80' ? ':' . $_SERVER['SERVER_PORT'] : '');
+            $return = $domain . $return;
+        }
+
+        return $return;
+    }
+
+    public function route()
+    {
+        // Get arguments
+        $arguments = func_get_args();
+
+        // Langs
+        $has_lang = $this['config']['langs'];
+
+        // Full argument
+        $full = false;
+        if(count($arguments))
+            if(is_bool($arguments[count($arguments) - 1]))
+                $full = array_pop($arguments);
+
+        // Lang argument
+        $lang = null;
+        if($has_lang)
+        {
+            $all_langs = $this['config']['langs']['all'];
+
+            if(count($arguments) > 1)
+            {
+                if(is_string($arguments[count($arguments) - 1]))
+                {
+                    if(in_array($arguments[count($arguments) - 1], $all_langs))
+                        $lang = trim(array_pop($arguments));
+                    else
+                        array_pop($arguments);
+                }
+            }
+
+            if(!$lang)
+                $lang = $this['translator']->getLocale();
+        }
+
+        // Params
+        $params = array();
+        if(count($arguments))
+            if(is_array($arguments[count($arguments) - 1]))
+                $params = array_pop($arguments);
+
+        if($lang)
+            $params['_locale'] = $lang;
+
+        // Path
+        $route = '';
+        if(count($arguments))
+            if(is_string($arguments[count($arguments) - 1]))
+                $route = trim(array_pop($arguments),'/');
+
+        if($lang)
+            $route .= '_' . $lang;
+
+        // Build URL
+        $url = $this['url_generator']->generate($route,$params);
+
+        // Full
+        if($full)
+        {
+            $domain = 'http' . (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . ($_SERVER['SERVER_PORT'] != '80' ? ':' . $_SERVER['SERVER_PORT'] : '');
+            $url = $domain . $url;
+        }
+
+        return $url;
     }
 
     private function _initLangs()
