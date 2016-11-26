@@ -49,17 +49,28 @@ class Application extends \Silex\Application {
 
         // Load and define environment
         $environments = $parser->parse(file_get_contents(SITE_PATH.'/config/environments.yml'));
-        $domain       = $_SERVER['HTTP_HOST'];
-        $environment  = 'prod'; // Default
+        $url          = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        $environment  = null;
 
         foreach($environments as $_environment => $_domains)
         {
-            if(in_array($domain, $_domains))
+            foreach($_domains as $_domain)
             {
-                $environment = $_environment;
+                if(strpos($url, $_domain) === 0)
+                {
+                    $environment = $_environment;
+                }
+            }
+
+            if($environment !== null)
+            {
                 break;
             }
         }
+        
+        // Default environment
+        if($environment == null)
+            $environment = 'prod';
 
         // Load and define config
         $configs = $parser->parse(file_get_contents(SITE_PATH.'/config/configs.yml'));

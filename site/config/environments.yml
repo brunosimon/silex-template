@@ -2,7 +2,8 @@ dev:
     - silex-template.dev
     - www.silex-template.dev
 preprod:
-    - preprod.silex-template.com
+    - silex-template.com/preprod
+    - www.silex-template.com/preprod
 prod:
     - silex-template.com
     - www.silex-template.com
