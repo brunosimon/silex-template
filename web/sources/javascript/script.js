@@ -1,62 +1,73 @@
 // Set up
-var $ajax_links     = $( 'a.ajax' ),
-    $ajax_container = $( '.ajax-container' ),
-    $body           = $( 'body' ),
-    $title          = $( 'title' ),
-    ajax_instance   = null,
-    ajax_url        = null;
+const $ajaxLinks     = document.querySelectorAll('a.ajax')
+const $ajaxContainer = document.querySelector('.ajax-container')
+const $body          = document.body
+const $title         = document.querySelector('title')
+
+let ajaxInstance   = null
+let ajaxUrl        = null
 
 // Load
 function load()
 {
     // Ajax already running
-    if( ajax_instance )
-        return;
-
-    // Hide (should use promises)
-    $ajax_container.fadeTo( 400, 0, function()
+    if(ajaxInstance)
     {
-        // Ajax call
-        ajax_instance = $.ajax( {
-            url: ajax_url,
-            dataType: 'json'
-        } );
+        return
+    }
 
-        // Ajax always event
-        ajax_instance.always( function()
-        {
-            ajax_instance = null;
-        } );
+    // Hide container
+    $ajaxContainer.classList.add('hidden')
+    const hidePromise = new Promise(resolve => window.setTimeout(resolve, 500))
 
-        // Ajax done (success) event
-        ajax_instance.done( function( result )
+    // Call
+    var headers = new Headers()
+    headers.append('Accept', 'application/json')
+
+    const fetchPromise = fetch(ajaxUrl, { headers: headers })
+        .then((response) =>
         {
+            return response.json()
+        })
+
+
+    const readyPromise = Promise.all([hidePromise, fetchPromise])
+        .then((values) =>
+        {
+            const result = values[1]
+
+            ajaxInstance = null
+
             // Update HTML
-            $ajax_container.html( result.html );
+            $ajaxContainer.innerHTML = result.html
 
             // Update <title>
-            $title.text( result.title );
+            $title.innerText = result.title
 
             // Update <body> classes
-            $body.removeClass( $body.data( 'route-name' ) );
-            $body.addClass( result.route_name );
-            $body.data( 'route-name', result.route_name );
+            $body.classList.remove($body.dataset.routename)
+            $body.classList.add(result.route_name)
+            $body.dataset.routename = result.route_name
 
-            // Show
-            $ajax_container.fadeTo( 400, 1 );
-        } );
-    } );
+            // Show container
+            $ajaxContainer.classList.remove('hidden')
+        })
 }
 
 // On ajax links click
-$ajax_links.on( 'click', function()
+for(let $ajaxLink of $ajaxLinks)
 {
-    // Set ajax url
-    ajax_url = $( this ).attr( 'href' );
+    $ajaxLink.addEventListener('click', function(event)
+    {
+        event.preventDefault()
 
-    // Load
-    load();
+        // Set ajax url
+        ajaxUrl = $ajaxLink.getAttribute('href')
 
-    // Prevent default
-    return false;
-} );
+        // Load
+        load()
+
+        // Prevent default
+        return false
+    })
+}

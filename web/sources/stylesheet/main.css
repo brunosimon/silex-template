@@ -1,1 +1,16 @@
-body {font-family:Helvetica,Arial;font-size:12px;}
+body
+{
+	font-family:Helvetica,Arial;
+	font-size:12px;
+}
+
+.ajax-container
+{
+	transition: opacity 0.5s;
+	will-change: opacity;
+}
+
+.ajax-container.hidden
+{
+	opacity: 0;
+}

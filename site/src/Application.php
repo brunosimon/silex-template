@@ -88,7 +88,7 @@ class Application extends \Silex\Application {
 
     private function _initAjax()
     {
-        $this['ajax'] = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+        $this['ajax'] = !empty($_SERVER['HTTP_ACCEPT']) && strtolower($_SERVER['HTTP_ACCEPT']) == 'application/json';
     }
 
     private function _initTemplating()

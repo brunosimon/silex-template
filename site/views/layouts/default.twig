@@ -16,7 +16,7 @@
     {% endif %}
 
 </head>
-<body class="{{ route_name }}" data-route-name="{{ route_name }}">
+<body class="{{ route_name }}" data-routename="{{ route_name }}">
 
     <div class="wrapper">
 
@@ -35,7 +35,6 @@
 
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     {% if config.minify.javascript %}
         <script src="{{ path('/sources/javascript/script.min.js') }}"></script>
     {% else %}
