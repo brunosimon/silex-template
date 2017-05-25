@@ -1,27 +1,12 @@
 {
     "require": {
-        "silex/silex": "~2.0",
-        "symfony/browser-kit": "~2.3",
-        "symfony/console": "~2.3",
-        "symfony/config": "~2.3",
-        "symfony/css-selector": "~2.3",
-        "symfony/dom-crawler": "~2.3",
-        "symfony/filesystem": "~2.3",
-        "symfony/finder": "~2.3",
-        "symfony/form": "~2.3",
-        "symfony/locale": "~2.3",
-        "symfony/process": "~2.3",
-        "symfony/security": "~2.3",
-        "symfony/serializer": "~2.3",
-        "symfony/translation": "~2.3",
-        "symfony/validator": "~2.3",
-        "symfony/monolog-bridge": "~2.3",
-        "symfony/twig-bridge": "~2.3",
-        "doctrine/dbal": "~2.2",
-        "swiftmailer/swiftmailer": "5.*",
-        "silex/web-profiler": "~2.0@dev",
-        "symfony/var-dumper": "^3.1",
-        "symfony/yaml": "~2.3"
+        "silex/silex": "^2.1",
+        "twig/twig": "^1.33",
+        "symfony/twig-bridge": "^3.2",
+        "symfony/yaml": "^3.2",
+        "symfony/locale": "^2.8",
+        "symfony/translation": "^3.2",
+        "symfony/var-dumper": "^3.2"
     },
     "autoload": {
         "psr-4": {
